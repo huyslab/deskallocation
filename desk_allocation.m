@@ -13,6 +13,7 @@ for k=1:1000000000
     %reject samples where sum of desks in not equal to numbeer of desks in
     %dop
     if sum(sum(setup) == ones([1,m])*dd) == m
+        disp(k)
         kk = kk + 1;
         opt_loc = best_location(d, setup);
         [opt_col,colgs] = each_colleague(p,setup);

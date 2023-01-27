@@ -1,0 +1,35 @@
+if ~exist('D');
+		load optimal_desks.mat
+		fprintf('loaded data.\n')
+else 
+		fprintf('D already in workspace.\n')
+end
+m = 12;
+p = 9;
+
+for k=1:length(D)
+    t = D(k)
+    st = t.setup;
+    st(10,:) = sum(st);
+    st(:,13) = sum(st');
+    st(10,13) = 0;
+    testy = st(:,13)
+    if (testy >= m & testy <= m*(2/3)) %change to division by month
+        %--------------------------------------------------------------
+        % Top two plots
+        tt = tiledlayout(2,1)
+        nexttile
+        ht = heatmap(st);
+        mm = string(month(datetime(1,2:13,1),'shortname'));
+        mm{1,13} = ['Total'];
+        ht.XDisplayLabels = mm;
+        ht.YDisplayLabels = ["Tore" "Anahit" "Agnes" "Roland" "Lana" "Anna" "Jakub" "Jiazhou" "Jolanda", "Total DOP"];
+        title('Overall setup')
+        nexttile
+        hcol = heatmap(t.colgs);
+        title('How many times each person spends with every other person')
+        hcol.YDisplayLabels = ["Tore" "Anahit" "Agnes" "Roland" "Lana" "Anna" "Jakub" "Jiazhou" "Jolanda"];
+        hcol.XDisplayLabels = ["Tore" "Anahit" "Agnes" "Roland" "Lana" "Anna" "Jakub" "Jiazhou" "Jolanda"];
+    
+        saveas(tt,sprintf('FIG%d.png',k));
+    end
